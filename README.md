@@ -29,5 +29,6 @@ To install and run the Blogify app locally, follow these steps:
 
 2. **Install dependencies:**
 
+     ```bash
     cd blogify
     npm install
