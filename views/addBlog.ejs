@@ -3,11 +3,17 @@
 <head>
    <%- include('./partials/head')  %>
    <title>Add New Blog</title>
+   <style>
+      .warning {
+        color: #cc0000; /* Dark red text color */
+        margin-top: 5px;
+      }
+   </style>
 </head>
 <body>
     <%- include('./partials/nav')  %>
     <div class="container mt-3">
-        <form action="/blog" method="post" enctype="multipart/form-data">
+        <form id="blogForm" action="/blog" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
             <div class="mb-3">
                 <label for="coverImage" class="form-label">Cover Image</label>
                 <input
@@ -16,6 +22,7 @@
                  id="coverImage" 
                  name="coverImage" 
                  aria-describedby="coverImage">
+                 <div id="coverImageWarning" class="warning"></div>
             </div>
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
@@ -25,10 +32,12 @@
                  id="title" 
                  name="title" 
                  aria-describedby="title">
+                 <div id="titleWarning" class="warning"></div>
             </div>
             <div class="mb-3">
                 <label for="body" class="form-label">Body</label>
                 <textarea name="body" class="form-control" id="body"></textarea>
+                <div id="bodyWarning" class="warning"></div>
             </div>
 
             <div class="mb-3">
@@ -38,5 +47,37 @@
     </div>
 
     <%- include('./partials/scripts')  %>
+
+    <script>
+        function validateForm() {
+            var title = document.getElementById('title').value;
+            var body = document.getElementById('body').value;
+            var coverImage = document.getElementById('coverImage').value;
+            var titleWarning = document.getElementById('titleWarning');
+            var bodyWarning = document.getElementById('bodyWarning');
+            var coverImageWarning = document.getElementById('coverImageWarning');
+
+            titleWarning.textContent = '';
+            bodyWarning.textContent = '';
+            coverImageWarning.textContent = '';
+
+            if (coverImage.trim() === '') {
+                coverImageWarning.textContent = 'Cover Image must be selected';
+                return false;
+            }
+
+            if (title.trim() === '') {
+                titleWarning.textContent = 'Title cannot be empty';
+                return false;
+            }
+
+            if (body.trim() === '') {
+                bodyWarning.textContent = 'Body cannot be empty';
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </body>
 </html>
